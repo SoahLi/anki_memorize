@@ -1,10 +1,6 @@
-from anki.models import ModelManager, NotetypeDict
-from aqt import gui_hooks, mw
-from util.decorators import require_vars
 import json
-from util.getters import get_mm
 
-from aqt import mw
+from aqt import gui_hooks, mw
 
 
 def test():

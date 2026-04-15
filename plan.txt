@@ -1,0 +1,15 @@
+what does a social media outlet need? This represents the Outlet struct
+
+the outlet struct needs:
+
+member variables:
+name: identifier for key that contains data in the static json file for this Outlet.
+
+members functions:
+- get_required_packages(): downloads required pip packages if not already installed.
+- scan(): scans the data (e.g youtube videos from youtube history) and returns a list of structured data
+
+
+
+Data in the static json file should include:
+- packages: list of pip packages required for this outlet
