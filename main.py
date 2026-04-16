@@ -2,6 +2,8 @@ import json
 
 from aqt import gui_hooks, mw
 
+from .processes.update_playlist_metadata import update_playlist_metadata
+
 
 def test():
     if not mw or not mw.col or not mw.col.db:
@@ -18,4 +20,5 @@ def test():
 
 
 def main():
-    gui_hooks.main_window_did_init.append(test)
+    # gui_hooks.main_window_did_init.append(test)
+    gui_hooks.main_window_did_init.append(update_playlist_metadata)

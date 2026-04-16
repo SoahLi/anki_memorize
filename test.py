@@ -1,0 +1,3 @@
+from processes.update_playlist_metadata import update_playlist_metadata
+
+update_playlist_metadata()
