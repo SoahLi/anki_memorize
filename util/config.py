@@ -11,8 +11,18 @@ def config() -> Optional[Config]:
     return aqt.mw.addonManager.getConfig(__name__)
 
 
-def get_config(key: str) -> Optional[str]:
+def config_get(key: str) -> Optional[str]:
     config_snapshot = config()
     if not config_snapshot:
         return None
     return config_snapshot.get(key)
+
+
+def config_get_ensure_exists(key: str) -> str:
+    config_snapshot = config()
+    if not config_snapshot:
+        raise Exception("Config not available.")
+    result = config_snapshot.get(key)
+    if result is None:
+        raise Exception(f"Config key '{key}' not found.")
+    return result

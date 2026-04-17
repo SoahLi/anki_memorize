@@ -56,7 +56,7 @@ def update_playlist_metadata():
     and updates the database accordingly.
     """
     # Example: get titles from history and update a database
-    titles = get_history_titles(limit=5)
+    titles = (limit=5)
     print("hello")
 
     # Here you would connect to your database and insert/update records
