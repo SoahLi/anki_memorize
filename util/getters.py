@@ -1,6 +1,8 @@
 from anki.models import ModelManager, NotetypeDict
 from aqt import mw
 
+from ..processes.init_user_db import engine
+
 
 def get_col():
     if not mw or not mw.col:
@@ -44,3 +46,12 @@ def get_or_create_yt_model(mm: ModelManager = get_mm()) -> NotetypeDict:
     mm.add(model)
 
     return model
+
+
+def get_engine():
+    if not engine:
+        raise Exception(
+            "Engine variable is null, should have been initialized before accessing"
+        )
+
+    return engine

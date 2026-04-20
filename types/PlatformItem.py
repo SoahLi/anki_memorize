@@ -14,7 +14,7 @@ class PlatformItemFilterLink(SQLModel, table=True):
 
 class Filter(SQLModel, table=True):
     id: Optional[int] = Field(default=None, primary_key=True)
-    name: str
+    name: str = Field(unique=True)
     platform_items: List["PlatformItem"] = Relationship(
         back_populates="filters", link_model=PlatformItemFilterLink
     )

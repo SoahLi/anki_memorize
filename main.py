@@ -21,7 +21,7 @@ def test():
 
 def main():
     gui_hooks.main_window_did_init.append(init_db_engine)
-    gui_hooks.main_window_did_init.append(test)
+    # gui_hooks.main_window_did_init.append(test)
 
 
 # gui_hooks.main_window_did_init.append(update_playlist_metadata)
