@@ -1,7 +1,11 @@
+from typing import Optional
+
 from anki.models import ModelManager, NotetypeDict
 from aqt import mw
+from sqlmodel import Session, select
 
-from ..processes.init_user_db import engine
+from ..processes.init_user_db import get_engine
+from ..types.Platform import Platform
 
 
 def get_col():
@@ -16,7 +20,10 @@ def get_mm():
     return mw.col.models
 
 
-def get_or_create_yt_model(mm: ModelManager = get_mm()) -> NotetypeDict:
+def get_or_create_yt_model(mm: Optional[ModelManager] = None) -> NotetypeDict:
+    if mm is None:
+        mm = get_mm()
+
     model_name = "SM_memorize"
 
     # Check if it already exists
@@ -48,10 +55,9 @@ def get_or_create_yt_model(mm: ModelManager = get_mm()) -> NotetypeDict:
     return model
 
 
-def get_engine():
-    if not engine:
-        raise Exception(
-            "Engine variable is null, should have been initialized before accessing"
-        )
-
-    return engine
+def get_platform_by_name(name: str) -> Platform:
+    with Session(get_engine()) as session:
+        result = session.exec(select(Platform).where(Platform.name == name)).first()
+        if result is None:
+            raise Exception(f"Platform with name '{name}' not found in database.")
+        return result

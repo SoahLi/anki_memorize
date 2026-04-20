@@ -51,5 +51,15 @@ def init_db_engine():
     global engine
     os.makedirs(USER_FOLDER, exist_ok=True)
     engine = create_engine(f"sqlite:///{DB_PATH}")
+    print(f"engine is {engine}")
     SQLModel.metadata.create_all(engine)
     seed_database()
+
+
+def get_engine():
+    if not engine:
+        raise Exception(
+            "Engine variable is null, should have been initialized before accessing"
+        )
+
+    return engine

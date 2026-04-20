@@ -1,8 +1,8 @@
-from typing import Dict, Optional
+from typing import Any, Dict, Optional
 
 import aqt
 
-Config = Dict[str, str]
+Config = Dict[str, Any]
 
 
 def config() -> Optional[Config]:
@@ -11,8 +11,9 @@ def config() -> Optional[Config]:
     return aqt.mw.addonManager.getConfig(__name__)
 
 
-def config_get(key: str) -> Optional[str]:
+def config_get(key: str):
     config_snapshot = config()
+    print(f"Config snapshot: {config_snapshot}")
     if not config_snapshot:
         return None
     return config_snapshot.get(key)
