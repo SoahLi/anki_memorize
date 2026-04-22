@@ -1,0 +1,34 @@
+{
+  "flashcards": [
+    {
+      "qmft": "What is a prediction market?",
+      "afmt": "A prediction market is a market where participants can buy and sell contracts based on the outcome of future events. The price of the contract reflects the collective belief about the likelihood of the event occurring.",
+      "markers": [["2:51", "3:14"]],
+      "score": 8
+    },
+    {
+      "qmft": "What was the name of the predition market that google used to forecast company decisions?",
+      "afmt": "prophit",
+      "markers": [["3:19", "3:50"]],
+      "score": 6 
+    },
+    {
+      "qmft": "Who is Robert Hanson and what was his idea about prediction markets?",
+      "afmt": "Robert Hanson is an economist who proposed the idea of using prediction markets to forecast future events. He suggested that these markets could be used to gather information and make better decisions in various fields, including politics, economics, and science.",
+      "markers": [["4:50", "5:27"]],  
+      "score": 9
+    },
+    {
+      "qmft": "What is the classic critique of scientism as described by Forestry officials in 18th centry Prussia?",
+      "afmt": "Forestry officials in 18th century Prussia criticized scientism for its overreliance on scientific methods and data, arguing that it neglected the importance of practical experience and local knowledge in managing forests effectively.",
+      "markers": [["7:59", "9:18"]],
+      "score": 7
+    },
+    {
+      "qmft": "What is Goodhart's Law?",
+      "afmt": "Goodhart's Law states that when a measure becomes a target, it ceases to be a good measure. In other words, once people start trying to optimize for a specific metric, it can lead to unintended consequences and distort the original purpose of the measure.",
+      "markers": [["10:22", "11:05"]],
+      "score": 8
+    }
+  ]
+}
