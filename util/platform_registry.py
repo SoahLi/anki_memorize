@@ -1,7 +1,7 @@
 # 4. The Registry (The "Brain")
 from typing import Dict
 
-from ..platform_handlers.Youtube import Youtube
+from ..platform_handlers.youtube.Youtube import Youtube
 from ..types.PlatformHandler import PlatformHandler
 
 PLATFORM_LOGIC_MAP: Dict[str, PlatformHandler] = {

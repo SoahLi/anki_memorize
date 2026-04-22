@@ -3,10 +3,10 @@ import os
 from sqlalchemy import Engine
 from sqlmodel import SQLModel, create_engine, text
 
-from ..types import Filter, Platform, PlatformItem  # noqa: F401
-from ..util.config import config_get
+from processes.init_user_db import init_db_engine
+from util.config import config_get
 
-USER_FOLDER = os.path.join(os.path.dirname(__file__), "..", "user_folders")
+USER_FOLDER = os.path.join(os.path.dirname(__file__), ".", "user_folders")
 DB_PATH = os.path.join(USER_FOLDER, "database.db")
 
 
@@ -50,7 +50,6 @@ def seed_database():
 def init_db_engine():
     global engine
     print(f"sqlite:///{DB_PATH}")
-    os.makedirs(USER_FOLDER, exist_ok=True)
     engine = create_engine(f"sqlite:///{DB_PATH}")
     print(f"engine is {engine}")
     SQLModel.metadata.create_all(engine)

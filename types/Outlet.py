@@ -1,6 +1,3 @@
-
-
-
-class Outlet(SQL):
-    def __init__(self):
+# class Outlet(SQLModel, table=True):
+# def __init__(self):
 
