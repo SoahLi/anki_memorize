@@ -1,0 +1,4 @@
+/venv
+.ruff_cache
+meta.json
+user_folders/database.db
