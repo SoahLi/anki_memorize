@@ -4,7 +4,6 @@ import os
 import requests
 
 # url = "http://192.168.1.165:11434/api/generate"
-url = "https://api.deepseek.com/chat/completions"
 # payload = {
 #    "model": "gemma4:e4b",
 #    "system": """
@@ -24,6 +23,7 @@ url = "https://api.deepseek.com/chat/completions"
 # }
 
 
+url = "https://api.deepseek.com/chat/completions"
 with open("prompt.txt", "r", encoding="utf-8") as f:
     system_prompt = f.read()
 
