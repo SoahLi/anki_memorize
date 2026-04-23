@@ -3,7 +3,7 @@ import os
 from sqlalchemy import Engine
 from sqlmodel import SQLModel, create_engine, text
 
-from ..types import Filter, Platform, PlatformItem  # noqa: F401
+from ..tables import Filter, Platform, PlatformItem  # noqa: F401
 from ..util.config import config_get
 
 USER_FOLDER = os.path.join(os.path.dirname(__file__), "..", "user_folders")

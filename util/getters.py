@@ -5,7 +5,7 @@ from aqt import mw
 from sqlmodel import Session, select
 
 from ..processes.init_user_db import get_engine
-from ..types.Platform import Platform
+from ..tables.Platform import Platform
 
 
 def get_col():
@@ -37,11 +37,30 @@ def get_or_create_yt_model(mm: Optional[ModelManager] = None) -> NotetypeDict:
     # 2. Add fields (The data storage)
     mm.add_field(model, mm.new_field("Front"))
     mm.add_field(model, mm.new_field("Back"))
+    mm.add_field(model, mm.new_field("url"))
+    mm.add_field(model, mm.new_field("thumbnail"))
+    mm.add_field(model, mm.new_field("platformItemId"))
+    # or, if were not using our own database
+    # mm.add_field(model, mm.new_field("platformId"))
+    # mm.add_field(model, mm.new_field("filters"))
+    mm.add_field(model, mm.new_field("title"))
+    mm.add_field(model, mm.new_field("video_snippet"))
+    mm.add_field(model, mm.new_field("filters"))
+
     # mm.add_field(model, mm.new_field("Timestamp"))
 
     # 3. Add a Template (The visual card)
     template = mm.new_template("Card 1")
-    template["qfmt"] = "{{Front}}"  # Front side HTML
+    template["qfmt"] = """
+    <div style="display: flex; align-items: center; justify-content: center; height: 200px;">
+      <div style="flex: 1; display: flex; align-items: center; justify-content: center; border-right: 1px solid #ccc; height: 100%;">
+        <span style="font-size: 1.5em;">{{Front}}</span>
+      </div>
+      <div style="flex: 1; display: flex; align-items: center; justify-content: center; height: 100%;">
+        <img src="{{thumbnail}}" alt="thumbnail" style="max-width: 100%; max-height: 180px; display: block; margin: auto;" />
+      </div>
+    </div>
+    """
     template["afmt"] = (
         # "{{FrontSide}}<hr id=answer>{{Back}}<br>Time: {{Timestamp}}"  # Back side HTML
         "{{FrontSide}}<hr id=answer>{{Back}}"  # Back side HTML
