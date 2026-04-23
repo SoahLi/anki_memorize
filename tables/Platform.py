@@ -1,7 +1,7 @@
 from sqlmodel import Field, SQLModel
 
+from ..types.PlatformHandler import PlatformHandler
 from ..util.platform_registry import PLATFORM_LOGIC_MAP
-from .PlatformHandler import PlatformHandler
 
 
 # 1. The Pure Data Model
