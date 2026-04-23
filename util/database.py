@@ -4,6 +4,7 @@ from util.getters import get_col, get_or_create_yt_model
 PLATFORM_TAG_PREFIX = "platformId_"
 
 
+# NOTE: not used yet
 def add_card_with_tags(platform_id: int, front: str, back: str):
     """Add card with platform_id as a tag"""
     col = get_col()
@@ -23,6 +24,7 @@ def add_card_with_tags(platform_id: int, front: str, back: str):
     return note
 
 
+# NOTE: not used yet
 def search_by_platform_id(platform_id: int):
     """Search using tags (faster than field search)"""
     col = get_col()

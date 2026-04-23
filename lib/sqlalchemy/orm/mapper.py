@@ -2350,7 +2350,7 @@ class Mapper(
 
         # existing properties.ColumnProperty from an inheriting
         # mapper. make a copy and append our column to it
-        # breakpoint()
+        # #breakpoint()
         new_prop = existing_prop.copy()
 
         new_prop.columns.insert(0, incoming_column)

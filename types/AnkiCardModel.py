@@ -20,11 +20,10 @@ class AnkiCardModel:
 
     def __init__(
         self,
-        # id: int,
-        transcript: str,  # this shouldn't be optional
+        transcript: str,
         # video_snippet: Optional[str],
-        title: str,  # this shouldn't be optional
-        url: str,  # this shouldn't be optional
+        title: str,
+        url: str,
         thumbnail: bytes,
         # platform_id: int = 0,
         # filters: list[Filter] = [],
@@ -41,5 +40,3 @@ class AnkiCardModel:
 
     def add_database_info(self, platform_item: PlatformItem):
         self.platform_item_id = platform_item.id
-
-    # self.filters = filters

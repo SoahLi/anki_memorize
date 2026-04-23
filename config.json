@@ -1,5 +1,8 @@
-
 {
   "myvar": "myvalue",
-  "platforms": ["youtube"]
+  "platforms": {
+    "youtube": {
+      "sources": ["history"]
+    }
+  }
 }

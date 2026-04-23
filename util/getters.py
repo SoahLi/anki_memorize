@@ -8,6 +8,7 @@ from ..processes.init_user_db import get_engine
 from ..tables.Platform import Platform
 
 
+# NOTE: not used yet
 def get_col():
     if not mw or not mw.col:
         raise Exception("Anki collection not available.")
