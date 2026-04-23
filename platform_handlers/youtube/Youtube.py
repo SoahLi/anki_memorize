@@ -72,7 +72,7 @@ class Youtube(PlatformHandler):
         # TODO: remove absolute pathing
         examples_to_inject_dir = "/home/owen/.local/share/Anki2/addons21/anki_memorize/platform_handlers/youtube/examples"
         for i in os.listdir(examples_to_inject_dir):
-            breakpoint()
+            # breakpoint()
             example_number_path = os.path.join(examples_to_inject_dir, i)
             prompt_file = os.path.join(example_number_path, "prompt.txt")
             answer_file = os.path.join(example_number_path, "answer.txt")
