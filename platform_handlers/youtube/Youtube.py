@@ -47,12 +47,12 @@ class Youtube(PlatformHandler):
 
     def llm_process_items(self, items: list[AnkiCardModel]) -> list[AnkiCard]:
         url = "https://api.deepseek.com/chat/completions"
-        # TODO: remove absolute pathing
-        with open(
-            "/home/owen/.local/share/Anki2/addons21/anki_memorize/prompt.txt",
-            "r",
-            encoding="utf-8",
-        ) as f:
+        
+        # Get the add-on root directory dynamically
+        addon_dir = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+        prompt_path = os.path.join(addon_dir, "prompt.txt")
+        
+        with open(prompt_path, "r", encoding="utf-8") as f:
             system_prompt = f.read()
 
         # TODO: make this a config variable
@@ -69,8 +69,10 @@ class Youtube(PlatformHandler):
             }
         ]
 
-        # TODO: remove absolute pathing
-        examples_to_inject_dir = "/home/owen/.local/share/Anki2/addons21/anki_memorize/platform_handlers/youtube/examples"
+        # Get examples directory relative to this file
+        examples_to_inject_dir = os.path.join(
+            os.path.dirname(__file__), "examples"
+        )
         for i in os.listdir(examples_to_inject_dir):
             # breakpoint()
             example_number_path = os.path.join(examples_to_inject_dir, i)
