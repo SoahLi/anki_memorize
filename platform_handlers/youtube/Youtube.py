@@ -55,7 +55,7 @@ class Youtube(PlatformHandler):
         ) as f:
             system_prompt = f.read()
 
-        # TODO: make this a config variable
+        # TODO: Change/deactivate this and make this a config variable
         API_KEY = "sk-7475c00d24be4652bf71434471a6aa77"
         headers = {
             "Content-Type": "application/json",
