@@ -6,8 +6,8 @@ from typing import Tuple
 import requests
 from pydantic import BaseModel, Field, field_validator
 
-from ...types.AnkiCard import AnkiCard
-from ...types.AnkiCardModel import AnkiCardModel
+from ...types.Item import Item
+from ...types.Note import Note
 from ...types.PlatformHandler import PlatformHandler
 from ...types.Source import BaseSource
 from ...types.SourceType import SourceType
@@ -20,32 +20,33 @@ SourceList = dict[SourceType, type[BaseSource]]
 class Youtube(PlatformHandler):
     sourceList: SourceList = {SourceType.HISTORY: YoutubeHistorySource}
 
-    def __init__(self):
+    def __init__(self, platform_id: int):
         super().__init__("youtube")
         # breakpoint()
         requested_sources = config_get_source_types_for_platform(self.name)
         self.sources: SourceList = {}
+        self.db_id: int = platform_id
         for source in requested_sources or []:
             if source not in self.sourceList:
                 raise ValueError(f"Source {source} is not supported for YouTube.")
             # Append the key and value to self.sources
             self.sources[source] = self.__class__.sourceList[source]
 
-    def update(self):
+    def update(self) -> list[Note]:
         """
         1. For each source type, run the scrape method to get a list of items (e.g. YouTube videos or TikTok shorts).
         2. For each item, send the transcript to the LLM and get back a set of flash cards
         """
 
-        items: list[AnkiCardModel] = []
+        items: list[Item] = []
 
         for source_type, source_class in self.sources.items():
             # breakpoint()
-            items.extend(source_class(source_type).scrape())
+            items.extend(source_class(source_type, self.db_id).scrape())
 
-        self.llm_process_items(items)
+        return self.llm_process_items(items)
 
-    def llm_process_items(self, items: list[AnkiCardModel]) -> list[AnkiCard]:
+    def llm_process_items(self, items: list[Item]) -> list[Note]:
         url = "https://api.deepseek.com/chat/completions"
         # TODO: remove absolute pathing
         with open(
@@ -95,7 +96,7 @@ class Youtube(PlatformHandler):
             "stream": False,
         }
 
-        result: list[AnkiCard] = []
+        result: list[Note] = []
         for item in items:
             payload["messages"].append({"role": "user", "content": item.transcript})
 
@@ -135,7 +136,7 @@ class Youtube(PlatformHandler):
                         back = card.afmt
                         markers = card.markers
                         score = card.score
-                        anki_card = AnkiCard(item, front, back, markers, score)
+                        anki_card = Note(item, front, back, markers, score)
                         result.append(anki_card)
 
                 except:

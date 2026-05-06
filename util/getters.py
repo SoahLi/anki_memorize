@@ -1,11 +1,11 @@
 from typing import Optional
 
+from anki.decks import DeckId
 from anki.models import ModelManager, NotetypeDict
 from aqt import mw
-from sqlmodel import Session, select
 
-from ..processes.init_user_db import get_engine
-from ..tables.Platform import Platform
+from ..types.PlatformHandler import PlatformHandler
+from .platform_registry import PLATFORM_LOGIC_MAP
 
 
 # NOTE: not used yet
@@ -75,9 +75,19 @@ def get_or_create_sm_memorize_model(mm: Optional[ModelManager] = None) -> Notety
     return model
 
 
-def get_platform_by_name(name: str) -> Platform:
-    with Session(get_engine()) as session:
-        result = session.exec(select(Platform).where(Platform.name == name)).first()
-        if result is None:
-            raise Exception(f"Platform with name '{name}' not found in database.")
-        return result
+def get_platform_handler_by_name(name: str) -> Optional[PlatformHandler]:
+    return PLATFORM_LOGIC_MAP.get(name)
+
+
+def get_or_create_sm_memorize_deck() -> DeckId:
+    col = get_col()
+    deck_name = "SM_memorize"
+    # Check if the deck already exists
+    existing_deck_id = col.decks.id_for_name(deck_name)
+    if existing_deck_id:
+        return existing_deck_id
+    # Create a new deck
+    new_deck_id = col.decks.id(deck_name)
+    if not new_deck_id:
+        raise Exception("Failed to create or retrieve the deck ID.")
+    return new_deck_id

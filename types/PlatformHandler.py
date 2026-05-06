@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from .Note import Note
+
 
 # 2. The Logic Interface (Strategy)
 class PlatformHandler(ABC):
@@ -7,5 +9,5 @@ class PlatformHandler(ABC):
         self.name = name
 
     @abstractmethod
-    def update(self):
+    def update(self) -> list[Note]:
         pass
