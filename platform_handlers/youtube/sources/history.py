@@ -1,16 +1,17 @@
 import requests
 import yt_dlp
 
-from ....types.AnkiCardModel import AnkiCardModel
+from ....types.Item import Item
 from ....types.Source import BaseSource
 from ....types.SourceType import SourceType
 
 
 class YoutubeHistorySource(BaseSource):
-    def __init__(self, outlet_type: SourceType):
-        super().__init__(outlet_type)
+    # I pass platform id so I can create a platform item but I can't currently because of circular imports. See the call made in add_note()
+    def __init__(self, outlet_type: SourceType, platform_id: int):
+        super().__init__(outlet_type, platform_id)
 
-    def scrape(self) -> list[AnkiCardModel]:
+    def scrape(self) -> list[Item]:
         url = "https://www.youtube.com/feed/history"
 
         # #breakpoint()
@@ -18,7 +19,7 @@ class YoutubeHistorySource(BaseSource):
             yt_dlp.YoutubeDL(
                 {
                     "cookiesfrombrowser": ("firefox",),
-                    "playlistend": 2,  # TODO: add some kind of pagenation to keep fetching videos until we reach one that is already in the database
+                    "playlistend": 1,  # TODO: add some kind of pagenation to keep fetching videos until we reach one that is already in the database
                     "extract_flat": False,
                     "verbose": False,  # ← Change to False
                     "quiet": True,  # ← Add this to suppress output
@@ -35,10 +36,11 @@ class YoutubeHistorySource(BaseSource):
                 }
             ) as ydl
         ):
+            breakpoint()
             info = ydl.extract_info(url, download=False)
             # print(info)
 
-            result: list[AnkiCardModel] = []
+            result: list[Item] = []
             for entry in info.get("entries", []):
                 title = entry.get("title") or ""
                 transcript_url = (
@@ -64,8 +66,10 @@ class YoutubeHistorySource(BaseSource):
                 ):
                     print(f"Warning: No transcript found for video '{title}' ({url})")
                     continue
-                card = AnkiCardModel(transcript, title, url, thumbnail)
-                result.append(card)
+
+                item = Item(transcript, title, url, thumbnail)
+
+                result.append(item)
 
             # with open("output.json", "w") as f:
             #    f.truncate(0)  # Erase file contents first

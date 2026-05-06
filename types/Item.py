@@ -1,10 +1,12 @@
 # also maybe should be named CardMetadata
 
 
+from typing import Optional
+
 from ..tables.PlatformItem import PlatformItem
 
 
-class AnkiCardModel:
+class Item:
     def __repr__(self):
         attrs = []
         if hasattr(self, "title"):
@@ -16,7 +18,7 @@ class AnkiCardModel:
             # if hasattr(self, "thumbnail"):
             #    attrs.append(f"thumbnail=<bytes {len(self.thumbnail)}>")
             attrs.append(f"platform_item_id={self.platform_item_id!r}")
-        return f"AnkiCard({', '.join(attrs)})"
+        return f"Note({', '.join(attrs)})"
 
     def __init__(
         self,
@@ -25,6 +27,7 @@ class AnkiCardModel:
         title: str,
         url: str,
         thumbnail: bytes,
+        platform_item_id: Optional[int] = None,  # I would prefer this not be optional
         # platform_id: int = 0,
         # filters: list[Filter] = [],
     ):
@@ -33,6 +36,7 @@ class AnkiCardModel:
         self.transcript = transcript
         self.url = url
         self.thumbnail = thumbnail
+        self.platform_item_id = platform_item_id
         # self.video_snippet = video_snippet
 
         # self.platform_id = platform_id

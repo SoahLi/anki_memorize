@@ -1,5 +1,5 @@
 from util.config import config_get_ensure_exists
-from util.getters import get_col, get_or_create_yt_model
+from util.getters import get_col, get_or_create_sm_memorize_model
 
 PLATFORM_TAG_PREFIX = "platformId_"
 
@@ -8,7 +8,7 @@ PLATFORM_TAG_PREFIX = "platformId_"
 def add_card_with_tags(platform_id: int, front: str, back: str):
     """Add card with platform_id as a tag"""
     col = get_col()
-    note = col.new_note(get_or_create_yt_model())
+    note = col.new_note(get_or_create_sm_memorize_model())
     note["Front"] = front
     note["Back"] = back
     # note["PlatformID"] = str(platform_id)  # Still store for display

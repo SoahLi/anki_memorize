@@ -1,20 +1,26 @@
 from typing import Tuple
 
-from .AnkiCardModel import AnkiCardModel
+from .Item import Item
 
 
-class AnkiCard(AnkiCardModel):
+class Note(Item):
     def __init__(
         self,
-        anki_card_model: AnkiCardModel,
+        anki_card_model: Item,
         front: str,
         back: str,
         markers: list[Tuple[str, str]],
         score: int,
     ):
-        self.title = anki_card_model.title
-        self.url = anki_card_model.url
-        self.thumbnail = anki_card_model.thumbnail
+        # these should be refs
+        super().__init__(
+            anki_card_model.transcript,
+            anki_card_model.title,
+            anki_card_model.url,
+            anki_card_model.thumbnail,
+            anki_card_model.platform_item_id,
+        )
+
         self.markers = markers
         self.front = front
         self.back = back
@@ -27,4 +33,4 @@ class AnkiCard(AnkiCardModel):
         attrs.append(f"thumbnail=<bytes {len(self.thumbnail)}>")
         attrs.append(f"front={self.front!r}")
         attrs.append(f"back={self.back!r}")
-        return f"AnkiCard({', '.join(attrs)})"
+        return f"Note({', '.join(attrs)})"
