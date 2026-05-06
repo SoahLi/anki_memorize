@@ -21,7 +21,7 @@ def get_mm():
     return mw.col.models
 
 
-def get_or_create_yt_model(mm: Optional[ModelManager] = None) -> NotetypeDict:
+def get_or_create_sm_memorize_model(mm: Optional[ModelManager] = None) -> NotetypeDict:
     if mm is None:
         mm = get_mm()
 

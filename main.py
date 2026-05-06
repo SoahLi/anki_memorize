@@ -1,12 +1,13 @@
 from aqt import gui_hooks
 
-from .processes.init_user_db import init_db_engine
+from processes.DatabaseManager import DatabaseManager
+
 from .processes.update_deck import update_deck
 
 
 # I would like to call these with two seperate main_window_did_init calls
 def starting_processes():
-    init_db_engine()
+    DatabaseManager.create()
     update_deck()
 
 
