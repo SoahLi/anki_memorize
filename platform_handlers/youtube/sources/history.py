@@ -18,6 +18,7 @@ class YoutubeHistorySource(BaseSource):
         with (
             yt_dlp.YoutubeDL(
                 {
+                    "verbose": True,
                     "cookiesfrombrowser": ("firefox",),
                     "playlistend": 1,  # TODO: add some kind of pagenation to keep fetching videos until we reach one that is already in the database
                     "extract_flat": False,
@@ -29,14 +30,17 @@ class YoutubeHistorySource(BaseSource):
                     # Add these options for transcripts
                     "writesubtitles": True,
                     "writeautomaticsub": True,
-                    "writeautomaticsub": True,
                     "subtitleslangs": ["en"],  # Only English subtitles
-                    "subtitlesformat": "srt",  # use srt for best compatibility
+                    # "subtitlesformat": "srt",  # use srt for best compatibility
                     "skip_download": True,
+                    "remote_components": ("ejs:github"),
                 }
             ) as ydl
         ):
-            breakpoint()
+            # breakpoint()
+            import sys
+
+            print(sys.version)
             info = ydl.extract_info(url, download=False)
             # print(info)
 
