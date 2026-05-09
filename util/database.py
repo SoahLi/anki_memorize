@@ -1,5 +1,5 @@
 from util.config import config_get_ensure_exists
-from util.getters import get_col, get_or_create_sm_memorize_model
+from util.anki_getters import get_col, get_or_create_sm_memorize_model
 
 PLATFORM_TAG_PREFIX = "platformId_"
 

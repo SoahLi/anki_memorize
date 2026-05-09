@@ -3,7 +3,7 @@ from typing import Tuple
 from .Item import Item
 
 
-class Note(Item):
+class Note:
     def __init__(
         self,
         anki_card_model: Item,
@@ -13,13 +13,13 @@ class Note(Item):
         score: int,
     ):
         # these should be refs
-        super().__init__(
-            anki_card_model.transcript,
-            anki_card_model.title,
-            anki_card_model.url,
-            anki_card_model.thumbnail,
-            anki_card_model.platform_item_id,
-        )
+        self.id = anki_card_model.id
+        self.platform = anki_card_model.platform
+        self.transcript = anki_card_model.transcript
+        self.title = anki_card_model.title
+        self.url = anki_card_model.url
+        self.thumbnail = anki_card_model.thumbnail
+        self.platform_item_id = anki_card_model.platform_item_id
 
         self.markers = markers
         self.front = front

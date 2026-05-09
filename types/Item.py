@@ -4,6 +4,7 @@
 from typing import Optional
 
 from ..tables.PlatformItem import PlatformItem
+from .Platforms import Platforms
 
 
 class Item:
@@ -22,16 +23,20 @@ class Item:
 
     def __init__(
         self,
+        id: str,  # the unique youtube id of the video
+        platform: Platforms,
         transcript: str,
         # video_snippet: Optional[str],
         title: str,
         url: str,
-        thumbnail: bytes,
+        thumbnail: str,
         platform_item_id: Optional[int] = None,  # I would prefer this not be optional
         # platform_id: int = 0,
         # filters: list[Filter] = [],
     ):
         # self.id = id
+        self.id = id
+        self.platform: str = platform.value
         self.title = title
         self.transcript = transcript
         self.url = url

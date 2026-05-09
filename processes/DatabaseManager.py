@@ -8,7 +8,7 @@ from sqlmodel import SQLModel, create_engine, text
 from ..tables import Filter, Platform, PlatformItem  # noqa: F401
 from ..types.Note import Note
 from ..util.config import config_get
-from ..util.getters import (
+from ..util.anki_getters import (
     get_col,
     get_or_create_sm_memorize_deck,
     get_or_create_sm_memorize_model,
@@ -106,7 +106,7 @@ class DatabaseManager(ABC):
         with cls.db_connection.begin() as connection:
             result = connection.execute(
                 text("""
-                INSERT INTO platform_item (platform_id)
+                INSERT INTO platformitem (platform_id)
                 VALUES (:platform_id)
                 """),
                 {"platform_id": platform_id},
@@ -120,13 +120,11 @@ class DatabaseManager(ABC):
         col = get_col()
         model = get_or_create_sm_memorize_model()
 
-        platform_item_id = DatabaseManager.create_platform_item(
-            DatabaseManager.get_platform_id_by_name("youtube")  # magic string
-        )
+        # this is for the internal database
+        # platform_item_id = DatabaseManager.create_platform_item( DatabaseManager.get_platform_id_by_name("youtube")  # magic string)
 
         ankiNote = AnkiNote(col, model)
-        ankiNote["platformItemId"] = str(
-            platform_item_id
-        )  # store platform item id for reference
+        # this is for the internal database
+        # ankiNote["platformItemId"] = str( platform_item_id)  # store platform item id for reference
         SyncManager.sync_note(note, ankiNote)
         col.add_note(ankiNote, get_or_create_sm_memorize_deck())

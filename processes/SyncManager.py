@@ -12,7 +12,8 @@ class SyncManager(ABC):
         ankiNote["Back"] = note.back
         ankiNote["url"] = note.url
         ankiNote["thumbnail"] = str(note.thumbnail)
-        ankiNote["platformItemId"] = str(note.platform_item_id)
+        ankiNote["platformItemId"] = str(note.id)
+        ankiNote["platformName"] = note.platform
         # ankiNote[# or, if were not using our own databa] = note.databa
         # ankiNote["platformId"] = note.platformId
         # ankiNote["filters"] = note.filters
