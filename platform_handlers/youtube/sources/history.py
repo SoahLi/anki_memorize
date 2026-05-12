@@ -40,6 +40,7 @@ class YoutubeHistorySource(BaseSource):
                 }
             ) as ydl
         ):
+            # CHECK THAT YOU ARE LOGGED INTO YOUR YOUTUBE ACOUNT (and cookies )
             info = ydl.extract_info(url, download=False)
 
             import json
@@ -55,7 +56,7 @@ class YoutubeHistorySource(BaseSource):
                     entry.get("requested_subtitles", {}).get("en", {}).get("url")
                 )
 
-                breakpoint()
+                # breakpoint()
                 id = entry.get("id")
                 col = get_col()
                 if len(col.find_notes("platformItemId:" + str(id))) > 0:
@@ -72,7 +73,7 @@ class YoutubeHistorySource(BaseSource):
                     requests.get(thumbnail_url).content if thumbnail_url else None
                 ) or None
 
-                img_html: str | None = None
+                final_filename: str | None = None
                 if thumbnail_bytes:
                     # 1. Generate a safe filename (e.g., using hash of the URL or content)
                     #    This avoids name collisions and handles duplicates automatically.
@@ -89,21 +90,20 @@ class YoutubeHistorySource(BaseSource):
                     #    It returns the final filename (might be unchanged or modified if duplicate).
                     final_filename = media.write_data(filename, thumbnail_bytes)
 
-                    # 4. Build the HTML <img> tag for this note field
-                    img_html = f'<img src="{final_filename}">'
-
                 # video_snippet = None
 
                 if (
                     transcript is None
                     or url is None
-                    or img_html is None
+                    or final_filename is None
                     or title is None
                 ):
                     print(f"Warning: No transcript found for video '{title}' ({url})")
                     continue
 
-                item = Item(id, Platforms.Youtube, transcript, title, url, img_html)
+                item = Item(
+                    id, Platforms.Youtube, transcript, title, url, final_filename
+                )
 
                 result.append(item)
 

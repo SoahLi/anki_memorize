@@ -46,6 +46,7 @@ class Youtube(PlatformHandler):
 
         return self.llm_process_items(items)
 
+    # TODO: create nvim plugin that allows you to travel between member functions
     def llm_process_items(self, items: list[Item]) -> list[Note]:
         url = "https://api.deepseek.com/chat/completions"
         # TODO: remove absolute pathing
