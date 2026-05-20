@@ -1,7 +1,7 @@
-from ..processes.DatabaseManager import DatabaseManager
-from ..types.Note import Note
-from ..util.config import config_get
-from ..util.getters import get_platform_handler_by_name
+from processes.DatabaseManager import DatabaseManager
+from custom_types.Note import Note
+from util.config import config_get
+from util.getters import get_platform_handler_by_name
 
 
 def update_deck():

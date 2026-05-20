@@ -3,7 +3,7 @@ import os
 from sqlalchemy import Engine
 from sqlmodel import SQLModel, create_engine, text
 
-from ..util.config import config_get
+from util.config import config_get
 
 USER_FOLDER = os.path.join(os.path.dirname(__file__), ".", "user_folders")
 DB_PATH = os.path.join(USER_FOLDER, "database.db")

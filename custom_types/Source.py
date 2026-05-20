@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
-from ..types.Item import Item
-from .SourceType import SourceType
+from custom_types.Item import Item
+from custom_types.SourceType import SourceType
 
 
 class BaseSource(ABC):

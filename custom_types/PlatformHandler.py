@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
 
-from .Note import Note
+from custom_types.Note import Note
 
 
 # 2. The Logic Interface (Strategy)

@@ -2,7 +2,7 @@ from abc import ABC
 
 from anki.notes import Note as AnkiNote
 
-from ..types.Note import Note
+from custom_types.Note import Note
 
 
 class SyncManager(ABC):

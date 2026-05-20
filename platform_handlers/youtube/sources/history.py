@@ -3,11 +3,11 @@ import hashlib
 import requests
 import yt_dlp
 
-from ....types.Item import Item
-from ....types.Platforms import Platforms
-from ....types.Source import BaseSource
-from ....types.SourceType import SourceType
-from ....util.anki_getters import get_col
+from custom_types.Item import Item
+from custom_types.Platforms import Platforms
+from custom_types.Source import BaseSource
+from custom_types.SourceType import SourceType
+from util.anki_getters import get_col
 
 
 class YoutubeHistorySource(BaseSource):
@@ -20,24 +20,34 @@ class YoutubeHistorySource(BaseSource):
 
         with (
             yt_dlp.YoutubeDL(
-                {
-                    "verbose": True,
-                    "cookiesfrombrowser": ("firefox",),
-                    "playlistend": 1,  # TODO: add some kind of pagenation to keep fetching videos until we reach one that is already in the database
-                    "extract_flat": False,
-                    "verbose": False,  # ← Change to False
-                    "quiet": True,  # ← Add this to suppress output
-                    "no_warnings": True,  # ← Add this to suppress warnings
-                    "ignoreerrors": True,
-                    "no_verbose_headers": True,  # pyright: ignore
-                    # Add these options for transcripts
-                    "writesubtitles": True,
-                    "writeautomaticsub": True,
-                    "subtitleslangs": ["en"],  # Only English subtitles
-                    # "subtitlesformat": "srt",  # use srt for best compatibility
-                    "skip_download": True,
-                    "remote_components": ("ejs:github"),
-                }
+               # {
+               #     "cookiesfrombrowser": ("firefox",),
+               #     "playlistend": 1,  # TODO: add some kind of pagenation to keep fetching videos until we reach one that is already in the database
+               #     "extract_flat": False,
+               #     #"verbose": False,  # ← Change to False
+               #     #"quiet": True,  # ← Add this to suppress output
+               #     #"no_warnings": True,  # ← Add this to suppress warnings
+               #     #"ignoreerrors": True,
+               #     #"no_verbose_headers": True,  # pyright: ignore
+               #     # Add these options for transcripts
+               #     #"writesubtitles": True,
+               #     "writeautomaticsub": True,
+               #     "subtitleslangs": ["en"],  # Only English subtitles
+               #     #"subtitlesformat": "srt",  # use srt for best compatibility
+               #     #"skip_download": True,
+               #     #"remote_components": ("ejs:github"),
+               # }
+            {
+                "cookiesfrombrowser": ("firefox",),
+                "playlistend": 1,
+                "quiet": True,
+                "no_warnings": True,
+                "ignoreerrors": True,
+                "skip_download": "True",
+                "writesubtitles": True,
+                "writeautomaticsub": True,
+                "subtitleslangs": ["en"],
+            }
             ) as ydl
         ):
             # CHECK THAT YOU ARE LOGGED INTO YOUR YOUTUBE ACOUNT (and cookies )

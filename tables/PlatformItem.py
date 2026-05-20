@@ -4,7 +4,7 @@ from sqlmodel import Field, Relationship, SQLModel
 
 if TYPE_CHECKING:
     from .Filter import Filter
-from .PlatformItemFilter import PlatformItemFilter
+from tables.PlatformItemFilter import PlatformItemFilter
 
 
 class PlatformItem(SQLModel, table=True):

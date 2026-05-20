@@ -6,13 +6,13 @@ from typing import Tuple
 import requests
 from pydantic import BaseModel, Field, field_validator
 
-from ...types.Item import Item
-from ...types.Note import Note
-from ...types.PlatformHandler import PlatformHandler
-from ...types.Source import BaseSource
-from ...types.SourceType import SourceType
-from ...util.config import config_get_source_types_for_platform
-from .sources.history import YoutubeHistorySource
+from custom_types.Item import Item
+from custom_types.Note import Note
+from custom_types.PlatformHandler import PlatformHandler
+from custom_types.Source import BaseSource
+from custom_types.SourceType import SourceType
+from util.config import config_get_source_types_for_platform
+from platform_handlers.youtube.sources.history import YoutubeHistorySource
 
 SourceList = dict[SourceType, type[BaseSource]]
 

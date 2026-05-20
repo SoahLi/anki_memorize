@@ -5,10 +5,10 @@ from anki.notes import Note as AnkiNote
 from sqlalchemy import Engine
 from sqlmodel import SQLModel, create_engine, text
 
-from ..tables import Filter, Platform, PlatformItem  # noqa: F401
-from ..types.Note import Note
-from ..util.config import config_get
-from ..util.anki_getters import (
+from tables import Filter, Platform, PlatformItem  # noqa: F401
+from custom_types.Note import Note
+from util.config import config_get
+from util.anki_getters import (
     get_col,
     get_or_create_sm_memorize_deck,
     get_or_create_sm_memorize_model,
@@ -58,6 +58,7 @@ class DatabaseManager(ABC):
             """)
 
             platforms = config_get("platforms")
+            print(f"platforms {platforms}")
             if platforms is not None:
                 for name in platforms:
                     connection.execute(stmt, {"name": name})

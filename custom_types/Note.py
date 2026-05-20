@@ -1,6 +1,6 @@
 from typing import Tuple
 
-from .Item import Item
+from custom_types.Item import Item
 
 
 class Note:

@@ -3,8 +3,8 @@
 
 from typing import Optional
 
-from ..tables.PlatformItem import PlatformItem
-from .Platforms import Platforms
+from tables.PlatformItem import PlatformItem
+from custom_types.Platforms import Platforms
 
 
 class Item:

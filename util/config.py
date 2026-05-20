@@ -2,15 +2,26 @@ from typing import Any, Dict, Optional
 
 import aqt
 
-from ..types.SourceType import SourceType
+from custom_types.SourceType import SourceType
 
 Config = Dict[str, Any]
 
 
+import os
+import json
+
 def config() -> Optional[Config]:
-    if not aqt.mw:
-        return None
-    return aqt.mw.addonManager.getConfig(__name__)
+    # Try to use Anki's config API if available
+    if hasattr(aqt, 'mw') and aqt.mw:
+        return aqt.mw.addonManager.getConfig("anki_memorize")
+    # Fallback: load config.json directly from the add-on directory
+    config_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), "config.json")
+    if os.path.exists(config_path):
+        with open(config_path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return None
+    # Use the add-on folder name to get the config
+    return aqt.mw.addonManager.getConfig("anki_memorize")
 
 
 def config_get(key: str) -> Any:
