@@ -6,6 +6,11 @@ from typing import Tuple
 import requests
 from pydantic import BaseModel, Field, field_validator
 
+from aqt.operations import QueryOp
+from aqt.utils import showInfo
+from requests.api import get
+from util.anki_getters import get_mw
+
 from custom_types.Item import Item
 from custom_types.Note import Note
 from custom_types.PlatformHandler import PlatformHandler

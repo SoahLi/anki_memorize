@@ -5,11 +5,13 @@ from anki.notes import Note as AnkiNote
 from sqlalchemy import Engine
 from sqlmodel import SQLModel, create_engine, text
 
+from aqt.operations.note import add_note
 from tables import Filter, Platform, PlatformItem  # noqa: F401
 from custom_types.Note import Note
 from util.config import config_get
 from util.anki_getters import (
     get_col,
+    get_mw,
     get_or_create_sm_memorize_deck,
     get_or_create_sm_memorize_model,
 )
@@ -120,6 +122,7 @@ class DatabaseManager(ABC):
     def add_note(cls, note: Note):
         col = get_col()
         model = get_or_create_sm_memorize_model()
+        deck_id = get_or_create_sm_memorize_deck()
 
         # this is for the internal database
         # platform_item_id = DatabaseManager.create_platform_item( DatabaseManager.get_platform_id_by_name("youtube")  # magic string)
@@ -128,4 +131,23 @@ class DatabaseManager(ABC):
         # this is for the internal database
         # ankiNote["platformItemId"] = str( platform_item_id)  # store platform item id for reference
         SyncManager.sync_note(note, ankiNote)
-        col.add_note(ankiNote, get_or_create_sm_memorize_deck())
+        add_note(parent=get_mw(), note=ankiNote, target_deck_id=deck_id)
+
+    @classmethod
+    def add_notes(cls, notes: list[Note]):
+        #breakpoint()
+        col = get_col()
+        model = get_or_create_sm_memorize_model()
+        deck_id = get_or_create_sm_memorize_deck()
+        mw = get_mw()
+
+        # this is for the internal database
+        # platform_item_id = DatabaseManager.create_platform_item( DatabaseManager.get_platform_id_by_name("youtube")  # magic string)
+
+        for note in notes:
+            ankiNote = AnkiNote(col, model)
+            # this is for the internal database
+            # ankiNote["platformItemId"] = str( platform_item_id)  # store platform item id for reference
+            SyncManager.sync_note(note, ankiNote)
+            print(f"adding note with front: {ankiNote['Front']} and back: {ankiNote['Back']}")
+            add_note(parent=mw, note=ankiNote, target_deck_id=deck_id).run_in_background()
