@@ -1,5 +1,6 @@
 {
   "myvar": "myvalue",
+  "page_size": "3",
   "platforms": {
     "youtube": {
       "sources": ["history"]

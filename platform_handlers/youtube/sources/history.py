@@ -16,69 +16,55 @@ class YoutubeHistorySource(BaseSource):
         super().__init__(outlet_type, platform_id)
 
     def scrape(self) -> list[Item]:
-        url = "https://www.youtube.com/feed/history"
+        base_url: str = "https://www.youtube.com/feed/history"
+        page_idx: int = 1
+        
+        base_opts = {
+            "cookiesfrombrowser": ("firefox",),
+            "quiet": True,
+            "no_warnings": True,
+            "ignoreerrors": True,
+            "skip_download": True,
+            "writesubtitles": True,
+            "writeautomaticsub": True,
+            "subtitleslangs": ["en"],
+        }
 
-        with (
-            yt_dlp.YoutubeDL(
-               # {
-               #     "cookiesfrombrowser": ("firefox",),
-               #     "playlistend": 1,  # TODO: add some kind of pagenation to keep fetching videos until we reach one that is already in the database
-               #     "extract_flat": False,
-               #     #"verbose": False,  # ← Change to False
-               #     #"quiet": True,  # ← Add this to suppress output
-               #     #"no_warnings": True,  # ← Add this to suppress warnings
-               #     #"ignoreerrors": True,
-               #     #"no_verbose_headers": True,  # pyright: ignore
-               #     # Add these options for transcripts
-               #     #"writesubtitles": True,
-               #     "writeautomaticsub": True,
-               #     "subtitleslangs": ["en"],  # Only English subtitles
-               #     #"subtitlesformat": "srt",  # use srt for best compatibility
-               #     #"skip_download": True,
-               #     #"remote_components": ("ejs:github"),
-               # }
-            {
-                "cookiesfrombrowser": ("firefox",),
-                "playlistend": 1,
-                "quiet": True,
-                "no_warnings": True,
-                "ignoreerrors": True,
-                "skip_download": "True",
-                "writesubtitles": True,
-                "writeautomaticsub": True,
-                "subtitleslangs": ["en"],
+        result: list[Item] = []
+
+        while True:
+            opts = {
+                **base_opts,
+                "playlist_items": f"{page_idx}-{page_idx + self.page_size - 1}"
             }
-            ) as ydl
-        ):
-            # CHECK THAT YOU ARE LOGGED INTO YOUR YOUTUBE ACOUNT (and cookies )
-            info = ydl.extract_info(url, download=False)
 
-            import json
+            with yt_dlp.YoutubeDL(opts) as ydl:
+                info = ydl.extract_info(base_url, download=False)
 
-            print(json.dumps(info, indent=4, sort_keys=True))
+            #breakpoint()
+            entries = info.get("entries", []) if info else []
+            if not entries:
+                break
 
-            # print(info)
-
-            result: list[Item] = []
             for entry in info.get("entries", []):
                 title = entry.get("title") or ""
+                print(f"Processing video '{title}'...")
                 transcript_url = (
                     entry.get("requested_subtitles", {}).get("en", {}).get("url")
-                )
-
+                ) or None
                 # breakpoint()
-                id = entry.get("id")
+                id = entry.get("id") or None
                 col = get_col()
                 if len(col.find_notes("platformItemId:" + str(id))) > 0:
+                    breakpoint()
                     print(f"Video '{title}' ({id}) already in database, skipping.")
-                    continue
+                    break
 
                 transcript: str | None = (
                     requests.get(transcript_url).text if transcript_url else None
                 ) or None
-
                 url = entry.get("webpage_url") or None
-                thumbnail_url = entry.get("thumbnail")
+                thumbnail_url = entry.get("thumbnail") or None
                 thumbnail_bytes: bytes | None = (
                     requests.get(thumbnail_url).content if thumbnail_url else None
                 ) or None
@@ -116,11 +102,6 @@ class YoutubeHistorySource(BaseSource):
                 )
 
                 result.append(item)
-
-            # with open("output.json", "w") as f:
-            #    f.truncate(0)  # Erase file contents first
-            #    json.dump(
-            #        ydl.sanitize_info(info), f, indent=4, sort_keys=True
-            #    )  # Pretty-print JSON with indentation and sorted keys
-
+            page_idx += self.page_size
+            break
         return result

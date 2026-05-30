@@ -24,12 +24,16 @@ def config() -> Optional[Config]:
     return aqt.mw.addonManager.getConfig("anki_memorize")
 
 
-def config_get(key: str) -> Any:
+def config_get(key: str, default: Optional[Any] = None) -> Any:
     config_snapshot = config()
     print(f"Config snapshot: {config_snapshot}")
     if not config_snapshot:
-        return None
-    return config_snapshot.get(key)
+        print("Config not available, returning default.")
+        return default
+    result = config_snapshot.get(key)
+    if result is None:
+        print(f"Config key '{key}' not found, returning default.")
+    return result if result is not None else default
 
 
 def config_get_ensure_exists(key: str) -> Any:
